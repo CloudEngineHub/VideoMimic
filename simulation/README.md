@@ -2,6 +2,8 @@
 
 ## Setup
 
+See [setup guide](setup.md) for how to install `videomimic_gym` and `videomimic_rl`.
+
 ### Download data
 
 We can download the checkpoints and the video datasets with
@@ -10,10 +12,6 @@ We can download the checkpoints and the video datasets with
 cd data
 bash download_videomimic_data.sh
 ```
-
-### Setup
-
-See [setup guide](setup.md) for how to install `videomimic_gym` and `videomimic_rl`.
 
 ### Running inference
 
@@ -44,6 +42,7 @@ Note that all of the above checkpoints have been tested on a real unitree G1.
 
 ### Running training 
 
+Again, ensure you have the videomimic conda environment activated for all the below.
 
 #### MoCap Pre-training
 
@@ -76,6 +75,6 @@ bashv ideomimic_gym/legged_gym/scripts/train_stage_4_rl_finetune.sh ${LOAD_RUN}
 
 Adjust nproc-per-node to be however many GPUs you have available. We also natively support multi-node training if needed.
 
-Note that not all the above stages have been tested end2end (during the paper, we did a lot of iteration and a full reproduction is hard).
+Note that not all the above stages have been tested end2end pre-release. Results may also vary depending on the data. Please let me (Arthur) know about any specific issues you run into, happy to help.
 
 There is more details on changing parameters of train scripts in [the corresponding readme for videomimic_gym](videomimic_gym/README.md).
