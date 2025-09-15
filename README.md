@@ -21,8 +21,8 @@
 ## TODO
 
 - [x] Release real‑to‑sim pipeline (July 15th, 2025)
-- [ ] Release the video dataset (July 15th, 2025) 
-- [ ] Release sim‑to‑real pipeline (September 15th, 2025) 
+- [x] Release the video dataset (July 15th, 2025) 
+- [x] Release simulation pipeline (September 15th, 2025) 
 
 # VideoMimic Real-to-Sim
 
