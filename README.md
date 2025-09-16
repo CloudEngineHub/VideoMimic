@@ -23,6 +23,7 @@
 - [x] Release real‑to‑sim pipeline (July 15th, 2025)
 - [x] Release the video dataset (July 15th, 2025) 
 - [x] Release simulation pipeline (September 15th, 2025) 
+- [x] Release sim2real code (September 15th, 2025) 
 
 # VideoMimic Real-to-Sim
 
