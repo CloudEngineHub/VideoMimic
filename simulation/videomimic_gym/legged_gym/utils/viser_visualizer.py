@@ -718,57 +718,13 @@ class LeggedRobotViser:
         # Now let yourdfpy update the relative link transforms based on dof_pos
         with self.server.atomic():
             self.isaac_urdf.update_cfg(dof_pos)
-
-    def update_contact_force_visualization(self, rigid_body_pos, contact_forces):
-        """
-        Update the visualization of contact forces.
-        
-        Args:
-            rigid_body_pos: Position of each rigid body (N, 3)
-            contact_forces: Contact forces for each body (N, 3)
-        """
-        # if not self.show_contact_forces.value:
-        #     # Clear existing arrows if they exist
-        #     if hasattr(self, '_contact_force_arrows'):
-        #         # self._contact_force_arrows.delete()
-        #         self._contact_force_arrows.visible = False
+    
+    def _update_contact_force_visualization(self, rigid_body_pos, contact_forces, env_idx=0):
         if hasattr(self, '_contact_force_arrows'):
             self._contact_force_arrows.visible = self.show_contact_forces.value
 
         if not self.show_contact_forces.value:
             return
-
-        # Ensure visualization handle exists and is visible if checkbox is checked
-        if not hasattr(self, '_target_contact_points'):
-            self._target_contact_points = self.server.scene.add_point_cloud(
-                "/target_contact_points",
-                points=np.zeros((0, 3)), # Start with no points
-                colors=np.array([[255, 255, 0]]), # Yellow
-                point_size=0.05,
-                visible=False
-            )
-        self._target_contact_points.visible = self.show_target_contacts.value
-
-        if not self.show_target_contacts.value:
-            return # Don't proceed if visualization is disabled
-
-        # --- Target Contact Visualization ---
-        # Assuming robot object provides target_contacts and feet_indices
-        if hasattr(self.robot, 'target_contacts') and hasattr(self.robot, 'feet_indices'):
-            target_contacts = self.robot.target_contacts[env_idx].cpu().numpy() # Shape (num_feet,)
-            feet_indices = self.robot.feet_indices.cpu().numpy()
-            feet_positions = self.robot.rigid_body_pos[env_idx, feet_indices].cpu().numpy() # Shape (num_feet, 3)
-
-            # Identify positions where target contact is True
-            contact_positions = feet_positions[target_contacts > 0.5] # Use a threshold for boolean conversion
-
-            # Update the point cloud
-            if contact_positions.shape[0] > 0:
-                self._target_contact_points.points = contact_positions
-                self._target_contact_points.colors = np.array([[255, 255, 0]] * contact_positions.shape[0]) # Yellow
-            else:
-                # If no contacts, clear the points
-                self._target_contact_points.points = np.zeros((0, 3))
 
         # --- Existing Contact Force Visualization ---
         # (Keep the original contact force arrow logic below)
@@ -803,6 +759,52 @@ class LeggedRobotViser:
                 colors=colors,
                 line_width=2.0,
             )
+        
+
+    def _update_target_contact_visualization(self, env_idx=0):
+        # Ensure visualization handle exists and is visible if checkbox is checked
+        if not hasattr(self, '_target_contact_points'):
+            self._target_contact_points = self.server.scene.add_point_cloud(
+                "/target_contact_points",
+                points=np.zeros((0, 3)), # Start with no points
+                colors=np.array([255, 255, 0]), # Yellow
+                point_size=0.05,
+                visible=False
+            )
+        self._target_contact_points.visible = self.show_target_contacts.value
+
+        if not self.show_target_contacts.value:
+            return # Don't proceed if visualization is disabled
+
+        # --- Target Contact Visualization ---
+        # Assuming robot object provides target_contacts and feet_indices
+        if hasattr(self.robot, 'target_contacts') and hasattr(self.robot, 'feet_indices'):
+            target_contacts = self.robot.target_contacts[env_idx].cpu().numpy() # Shape (num_feet,)
+            feet_indices = self.robot.feet_indices.cpu().numpy()
+            feet_positions = self.robot.rigid_body_pos[env_idx, feet_indices].cpu().numpy() # Shape (num_feet, 3)
+
+            # Identify positions where target contact is True
+            contact_positions = feet_positions[target_contacts > 0.5] # Use a threshold for boolean conversion
+
+            # Update the point cloud
+            if contact_positions.shape[0] > 0:
+                self._target_contact_points.points = contact_positions
+                self._target_contact_points.colors = np.array([[255, 255, 0]] * contact_positions.shape[0]) # Yellow
+            else:
+                # If no contacts, clear the points
+                self._target_contact_points.points = np.zeros((0, 3))
+
+
+    def update_contact_force_visualization(self, rigid_body_pos, contact_forces, env_idx=0):
+        """
+        Update the visualization of contact forces.
+        
+        Args:
+            rigid_body_pos: Position of each rigid body (N, 3)
+            contact_forces: Contact forces for each body (N, 3)
+        """
+        self._update_contact_force_visualization(rigid_body_pos, contact_forces, env_idx)
+        self._update_target_contact_visualization(env_idx)
 
     def update_ray_visualization(self, env_idx=0):
         """Update the visualization of all sensors, including ray hits, start points, and directions.
