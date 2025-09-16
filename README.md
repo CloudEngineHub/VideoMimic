@@ -16,6 +16,7 @@
 
 ## Updates
 
+- **Sep 15, 2025:** Simulation code and preliminary sim2real code released.
 - **Jul 6, 2025:** Initial real-to-sim pipeline release. 
 
 ## TODO
