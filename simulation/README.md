@@ -15,6 +15,8 @@ bash download_videomimic_data.sh
 
 ### Running inference
 
+In all the below inference scripts, after running the command a viser UI will be available at localhost:8080 to see the robot playing. If you are on a remote server, you can either forward this through SSH tunnels, VS Code's ports interface, or persistent cloudflare tunnels.
+
 Ensure you have your `videomimic` conda env activated, and run:
 
 *For terrain policy*
