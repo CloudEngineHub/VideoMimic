@@ -960,7 +960,7 @@ def process_retargeting(
     if vis:
         server = viser.ViserServer(port=8081)
         server.scene.set_up_direction("+y")
-        weight_tuner = pk.viewer.WeightTuner(server, weights, max={"limit_cost_factor_weight": 10000.0})
+        weight_tuner = pk.viewer.WeightTuner(server, weights, max={"limit_cost_factor_weight": 1000.0})
     else:
         server = None
         weight_tuner = None
@@ -1629,9 +1629,9 @@ def main(
     end_effector_cost_weight: float = 5.0,
     global_pose_cost_weight: float = 2.0,
     self_coll_factor_weight: float = 1.0,
-    world_coll_factor_weight: float = 0.1,
+    world_coll_factor_weight: float = 0.01,
     world_coll_margin: float = 0.01,
-    limit_cost_factor_weight: float = 10000.0,
+    limit_cost_factor_weight: float = 1000.0,
     smoothness_cost_factor_weight: float = 10.0,
     foot_skating_cost_weight: float = 10.0,
     ground_contact_cost_weight: float = 1.0,
