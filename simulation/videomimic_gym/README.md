@@ -117,10 +117,10 @@ We also are able to override the parameters from the python configs by setting `
 ### Explanation of data loading
 
 Currently, we have 2 types of data:
-* AMASS  / other motion capture data without terrains
-* VideoMimic(TM) data with terrains
+* VideoMimic data with terrains [here](../data/videomimic_captures)
+* Other motion capture data without terrains [here](../data/unitree_lafan)
 
-The loading is done in [replay_data.py](/legged_gym/utils/replay_data.py). This class takes a list of pickle files. We then sample from it using the member methods. The motion clips are ingested as pkl files. They are expected to be picked up from a file called `retargeted_data` which is cloned into the same folder as videomimic_gym repository. You can get some example data from Arthur's repo [here](https://github.com/ArthurAllshire/retargeted_data).
+The loading is done in [replay_data.py](legged_gym/tensor_utils/replay_data.py). This class takes a list of pickle files. We then sample from it using the member methods. The motion clips are ingested as pkl files. The data is located in [data](../data) directory.
 
 IsaacGym (and other simulators) generally like to batch use of terrains between different environments by having them share a terrain meshes. This makes things efficient, however it's annoying when we want different terrains for env. The workaround we have implemented is to concat the meshes for different terrains to one and have a global env_offsets variable (see [robot_deepmimic.py](/legged_gym/envs/base/robot_deepmimic.py)) which is added to the starting position of clips to align them with the terrain.
 
