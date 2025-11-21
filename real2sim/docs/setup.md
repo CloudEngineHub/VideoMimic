@@ -40,6 +40,8 @@ pip install -r requirements.txt
 #### Human Detection & Pose Estimation
 
 ```bash
+mkdir third_party
+
 # 1. Grounded-SAM-2 (bounding boxes and segmentation)
 cd third_party/
 git clone https://github.com/hongsukchoi/Grounded-SAM-2.git
@@ -58,6 +60,7 @@ cd third_party/
 git clone https://github.com/ViTAE-Transformer/ViTPose.git
 cd ViTPose
 pip install -v -e .
+# If error above, do `pip install numpy cython wheel` first
 cd ../..
 
 # 3. VIMO (3D human mesh - primary method)
@@ -73,6 +76,13 @@ cd bstro
 python setup.py build develop
 cd ../..
 ```
+
+<details>
+<summary>Troubleshooting: cuda-12.6 and grounding dino installation  </summary>
+
+When you see error for `pip install --no-build-isolation -e grounding_dino`, something like `error: command '/usr/local/cuda-12.6/bin/nvcc' failed with exit code 2`, see the error message and change `value.type()` to ` value.scalar_type()`.
+
+</details>
 
 <details>
 <summary>Troubleshooting: g++-11 errors</summary>
@@ -166,7 +176,9 @@ conda env create -f environment.yml
 conda activate vm1recon
 
 # other dependencies
+cd ../..
 pip install -r requirements.txt
+cd third_party/megasam-package
 
 # Additional dependencies
 # cuda 11.8 is required
