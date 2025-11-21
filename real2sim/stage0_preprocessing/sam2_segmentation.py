@@ -161,7 +161,7 @@ def main(text: str="person.", video_dir: str="./demo_data/input_images/arthur_ty
         results = processor.post_process_grounded_object_detection(
             outputs,
             inputs.input_ids,
-            box_threshold=0.25,
+            #box_threshold=0.25,
             text_threshold=0.25,
             target_sizes=[image.size[::-1]]
         )
